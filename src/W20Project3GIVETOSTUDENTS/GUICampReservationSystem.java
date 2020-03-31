@@ -5,11 +5,14 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 
-/*****************************************************************
+/***********************************************************************************************************************
+ * CIS 163 Project 3
+ * GUI class that extends JFrame and implements ActionListener
+ * Helper class in displaying data from the list to display in the table
  *
- *  Campers Reservation System
- *
- *****************************************************************/
+ * @author Keilani Bailey and Emma Owen
+ **********************************************************************************************************************/
+
 public class GUICampReservationSystem extends JFrame implements ActionListener{
     /** Holds menu bar */
     private JMenuBar menus;
@@ -132,6 +135,17 @@ public class GUICampReservationSystem extends JFrame implements ActionListener{
 
         if (checkOUtItemScn == comp)
             DList.setDisplay(ScreenDisplay.CheckOutGuest);
+
+        /** change overdue screen info when get a chance**/
+
+        if (overDueItemScn == comp)
+            DList.setDisplay(ScreenDisplay.OverDueScreen);
+
+        if (sortTentRvItemScn == comp)
+            DList.setDisplay(ScreenDisplay.TentScreen);
+
+        if (sortRvTentItemScn == comp)
+            DList.setDisplay(ScreenDisplay.RVScreen);
 
         if (openSerItem == comp || openTextItem == comp) {
             JFileChooser chooser = new JFileChooser();

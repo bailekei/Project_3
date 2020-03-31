@@ -10,6 +10,15 @@ import java.util.stream.Collectors;
 
 import static W20Project3GIVETOSTUDENTS.ScreenDisplay.CurrentParkStatus;
 
+/***********************************************************************************************************************
+ * CIS 163 Project 3
+ * ListModel class that extends AbstractTableModel and implements TableModel
+ * Helper class in retrieving data from the auto list to display in the table
+ *
+ * @author Keilani Bailey and Emma Owen
+ * @consulted Ethan Grant
+ **********************************************************************************************************************/
+
 public class ListModel extends AbstractTableModel {
     private ArrayList<CampSite> listCampSites;
     private ArrayList<CampSite> fileredListCampSites;
@@ -19,10 +28,19 @@ public class ListModel extends AbstractTableModel {
     private String[] columnNamesCurrentPark = {"Guest Name", "Est. Cost",
             "Check in Date", "EST. Check out Date ", "Max Power", "Num of Tenters"};
 
+    private String[] columnNamesforRV = {"Guest Name", "Est. Cost",
+            "Check in Date", "EST. Check out Date ", "Max Power", "Num of Tenters"};
+
+    private String[] columnNamesforTents = {"Guest Name", "Est. Cost",
+            "Check in Date", "EST. Check out Date ", "Max Power", "Num of Tenters"};
+
     private String[] columnNamesforCheckouts = {"Guest Name", "Est. Cost",
             "Check in Date", "ACTUAL Check out Date ", " Real Cost"};
 
+    private String[] columnNamesforOverdue = {"Guest Name", "Est. Cost", "EST Check out Date ", "Days Overdue" };
+
     private DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+
     private String date;
 
     public ListModel() {
@@ -62,6 +80,40 @@ public class ListModel extends AbstractTableModel {
 
                 break;
 
+            case RVScreen:
+                fileredListCampSites = (ArrayList<CampSite>) listCampSites.stream().
+                        filter(n -> n.getActualCheckOut() != null).collect(Collectors.toList());
+
+                // Note: This uses an anonymous class.
+                Collections.sort(fileredListCampSites, new Comparator<CampSite>() {
+                    @Override
+                    public int compare(CampSite n1, CampSite n2) {
+                        return n1.getGuestName().compareTo(n2.guestName);
+                    }
+                });
+
+                break;
+            case TentScreen:
+                fileredListCampSites = (ArrayList<CampSite>) listCampSites.stream().
+                        filter(n -> n.getActualCheckOut() != null).collect(Collectors.toList());
+
+                // Note: This uses an anonymous class.
+                Collections.sort(fileredListCampSites, new Comparator<CampSite>() {
+                    @Override
+                    public int compare(CampSite n1, CampSite n2) {
+                        return n1.getGuestName().compareTo(n2.guestName);
+                    }
+                });
+
+                break;
+
+            case OverDueScreen:
+                fileredListCampSites = (ArrayList<CampSite>) listCampSites.stream().
+                        filter(n -> n.actualCheckOut == null).collect(Collectors.toList());
+
+                // Note: This uses Lambda function
+                Collections.sort(fileredListCampSites, (n1, n2) -> n1.getGuestName().compareTo(n2.guestName));
+                break;
             default:
                 throw new RuntimeException("upDate is in undefined state: " + display);
         }
@@ -75,6 +127,13 @@ public class ListModel extends AbstractTableModel {
                 return columnNamesCurrentPark[col];
             case CheckOutGuest:
                 return columnNamesforCheckouts[col];
+            case OverDueScreen:
+                return columnNamesforOverdue[col];
+            case TentScreen:
+                return columnNamesforTents[col];
+            case RVScreen:
+                return columnNamesforRV[col];
+
         }
         throw new RuntimeException("Undefined state for Col Names: " + display);
     }
@@ -86,6 +145,12 @@ public class ListModel extends AbstractTableModel {
                 return columnNamesCurrentPark.length;
             case CheckOutGuest:
                 return columnNamesforCheckouts.length;
+            case OverDueScreen:
+                return columnNamesforOverdue.length;
+            case TentScreen:
+                return columnNamesforTents.length;
+            case RVScreen:
+                return columnNamesforRV.length;
         }
         throw new IllegalArgumentException();
     }
@@ -102,6 +167,13 @@ public class ListModel extends AbstractTableModel {
                 return currentParkScreen(row, col);
             case CheckOutGuest:
                 return checkOutScreen(row, col);
+            case OverDueScreen:
+                return columnNamesforOverdue(row, col);
+            case TentScreen:
+                return columnNamesforTents(row, col);
+            case RVScreen:
+                return columnNamesforRV(row, col);
+
           }
         throw new IllegalArgumentException();
     }
@@ -140,7 +212,7 @@ public class ListModel extends AbstractTableModel {
                     else
                         return "";
                 }
-            default:
+             default:
                 throw new RuntimeException("Row,col out of range: " + row + " " + col);
         }
     }
@@ -167,6 +239,104 @@ public class ListModel extends AbstractTableModel {
                         get(row).getCost(fileredListCampSites.get(row).
                         actualCheckOut
                 ));
+
+            default:
+                throw new RuntimeException("Row,col out of range: " + row + " " + col);
+        }
+    }
+    private Object columnNamesforTents(int row, int col) {
+        switch (col) {
+            case 0:
+                return (fileredListCampSites.get(row).guestName);
+
+            case 1:
+                return (fileredListCampSites.get(row).getCost(fileredListCampSites.
+                        get(row).estimatedCheckOut));
+
+            case 2:
+                return (formatter.format(fileredListCampSites.get(row).checkIn.getTime()));
+
+            case 3:
+                if (fileredListCampSites.get(row).estimatedCheckOut == null)
+                    return "-";
+
+                return (formatter.format(fileredListCampSites.get(row).estimatedCheckOut.
+                        getTime()));
+
+            case 4:
+            case 5:
+                if (fileredListCampSites.get(row) instanceof RV)
+                    if (col == 4)
+                        return (((RV) fileredListCampSites.get(row)).getPower());
+                    else
+                        return "";
+
+                else {
+                    if (col == 5)
+                        return (((TentOnly) fileredListCampSites.get(row)).
+                                getNumberOfTenters());
+                    else
+                        return "";
+                }
+            default:
+                throw new RuntimeException("Row,col out of range: " + row + " " + col);
+        }
+    }
+
+    private Object columnNamesforRV(int row, int col) {
+        switch (col) {
+            case 0:
+                return (fileredListCampSites.get(row).guestName);
+
+            case 1:
+                return (fileredListCampSites.get(row).getCost(fileredListCampSites.
+                        get(row).estimatedCheckOut));
+
+            case 2:
+                return (formatter.format(fileredListCampSites.get(row).checkIn.getTime()));
+
+            case 3:
+                if (fileredListCampSites.get(row).estimatedCheckOut == null)
+                    return "-";
+
+                return (formatter.format(fileredListCampSites.get(row).estimatedCheckOut.
+                        getTime()));
+
+            case 4:
+            case 5:
+                if (fileredListCampSites.get(row) instanceof RV)
+                    if (col == 4)
+                        return (((RV) fileredListCampSites.get(row)).getPower());
+                    else
+                        return "";
+
+                else {
+                    if (col == 5)
+                        return (((TentOnly) fileredListCampSites.get(row)).
+                                getNumberOfTenters());
+                    else
+                        return "";
+                }
+            default:
+                throw new RuntimeException("Row,col out of range: " + row + " " + col);
+        }
+}
+
+    private Object columnNamesforOverdue(int row, int col) {
+        switch (col) {
+            case 0:
+                return (fileredListCampSites.get(row).guestName);
+
+            case 1:
+                return (fileredListCampSites.
+                        get(row).getCost(fileredListCampSites.get(row).
+                        estimatedCheckOut));
+            case 2:
+                return (formatter.format(fileredListCampSites.get(row).checkIn.
+                        getTime()));
+
+            case 3:
+                return (formatter.format(fileredListCampSites.get(row).checkIn.getTime()));
 
             default:
                 throw new RuntimeException("Row,col out of range: " + row + " " + col);

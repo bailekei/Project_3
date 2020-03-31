@@ -10,6 +10,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+/***********************************************************************************************************************
+ * CIS 163 Project 3
+ * ReservationRVDialog class that extends JDialog and implements ActionListener
+ *
+ *
+ * @author Keilani Bailey and Emma Owen
+ **********************************************************************************************************************/
+
 public class ReservationRVDialog extends JDialog implements ActionListener {
     private JTextField txtGuestName;
     private JTextField txtDateCheckin;
@@ -88,6 +96,7 @@ public class ReservationRVDialog extends JDialog implements ActionListener {
      Respond to either button clicks
      @param e the action event that was just fired
      **************************************************************/
+
     public void actionPerformed(ActionEvent e) {
 
         JButton button = (JButton) e.getSource();

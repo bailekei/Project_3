@@ -11,6 +11,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+/***********************************************************************************************************************
+ * CIS 163 Project 3
+ * CheckOutOnDialog class that extends JDialog and implements ActionListener
+ *
+ *
+ * @author Keilani Bailey and Emma Owen
+ **********************************************************************************************************************/
+
 public class CheckOutOnDialog extends JDialog implements ActionListener {
 
 	private JTextField txtDate;
@@ -72,6 +80,7 @@ public class CheckOutOnDialog extends JDialog implements ActionListener {
 	 Respond to either button clicks
 	 @param e the action event that was just fired
 	 **************************************************************/
+
 	public void actionPerformed(ActionEvent e) {
 
 		JButton button = (JButton) e.getSource();

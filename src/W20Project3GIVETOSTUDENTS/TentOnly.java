@@ -27,9 +27,27 @@ public class TentOnly extends CampSite {
         this.numberOfTenters = numberOfTenters;
     }
 
+    /****************************************************************************************************************
+     *Method that finds the cost of the tents. RETURN TO LATER. VALUES ARE SLIGHTLY LARGER
+     *
+     * @param checkOut GregorianCalender - the check out date
+     * @return double cost
+     ****************************************************************************************************************/
+
     @Override
     public double getCost(GregorianCalendar checkOut) {
-        double cost = 0;
+        double cost = 10;
+
+        GregorianCalendar gTemp = new GregorianCalendar();
+        gTemp = (GregorianCalendar) checkOut.clone();
+
+        while(gTemp.after(checkIn)){
+            if(numberOfTenters > 10)
+                cost += 20;
+            else
+                cost += 10;
+            gTemp.add(Calendar.DATE, -1);
+        }
         return cost;
     }
 

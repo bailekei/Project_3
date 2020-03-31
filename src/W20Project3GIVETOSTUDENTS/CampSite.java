@@ -7,18 +7,37 @@ import java.util.GregorianCalendar;
 
 public abstract class
 CampSite implements Serializable {
+
+    /** serial number */
     private static final long serialVersionUID = 1L;
 
+    /** name of guest */
     protected String guestName;
+
+    /** check in date */
     protected GregorianCalendar checkIn;
+
+    /** estimated chedkout time*/
     protected GregorianCalendar estimatedCheckOut;
+
+    /** actual check out date */
     protected GregorianCalendar actualCheckOut;
 
+    /*****************************************************************
+     Default constructor for campsite
+     *****************************************************************/
     public CampSite() {
     }
 
     public abstract double getCost(GregorianCalendar checkOut);
 
+    /*****************************************************************
+     Constructor creates a die of specified size X size pixels
+     @param guestName
+     @param checkIn
+     @param estimatedCheckOut
+     @param actualCheckOut
+     *****************************************************************/
     public CampSite(String guestName,
                     GregorianCalendar checkIn,
                     GregorianCalendar estimatedCheckOut,
@@ -29,33 +48,64 @@ CampSite implements Serializable {
         this.actualCheckOut = actualCheckOut;
     }
 
+    /*******************************************************************************************************************
+     *Getter method for guest name
+     *******************************************************************************************************************/
+
     public String getGuestName() {
         return guestName;
     }
+
+    /*******************************************************************************************************************
+     *Setter method for guest name
+     *******************************************************************************************************************/
 
     public void setGuestName(String guestName) {
         this.guestName = guestName;
     }
 
+    /*******************************************************************************************************************
+     *Getter method for checkin date
+     *******************************************************************************************************************/
+
     public GregorianCalendar getCheckIn() {
         return checkIn;
     }
+
+    /*******************************************************************************************************************
+     *Setter method for checkin date
+     *******************************************************************************************************************/
 
     public void setCheckIn(GregorianCalendar checkIn) {
         this.checkIn = checkIn;
     }
 
+    /*******************************************************************************************************************
+     *Getter method for estimated checkout date
+     *******************************************************************************************************************/
+
     public GregorianCalendar getEstimatedCheckOut() {
         return estimatedCheckOut;
     }
+    /*******************************************************************************************************************
+     *Setter method for estimated checkout date
+     *******************************************************************************************************************/
 
     public void setEstimatedCheckOut(GregorianCalendar estimatedCheckOut) {
         this.estimatedCheckOut = estimatedCheckOut;
     }
 
+    /*******************************************************************************************************************
+     *Getter method for checkout date
+     *******************************************************************************************************************/
+
     public GregorianCalendar getActualCheckOut() {
         return actualCheckOut;
     }
+
+    /*******************************************************************************************************************
+     *Setter method for checkout date
+     *******************************************************************************************************************/
 
     public void setActualCheckOut(GregorianCalendar actualCheckOut) {
         this.actualCheckOut = actualCheckOut;
